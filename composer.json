@@ -1,5 +1,5 @@
 {
-  "name": "dflourusso/php-one-signal",
+  "name": "paliari/php-one-signal",
   "license": "MIT",
   "authors": [
     {
@@ -12,7 +12,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Dflourusso\\": "src"
+      "Paliari\\": "src"
     }
   }
 }

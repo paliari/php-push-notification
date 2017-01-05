@@ -1,9 +1,9 @@
 <?php
-namespace Dflourusso;
+namespace Paliari;
 
 /**
  * Class Config
- * @package Dflourusso
+ * @package Paliari
  */
 class Config
 {

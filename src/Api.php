@@ -1,9 +1,9 @@
 <?php
-namespace Dflourusso;
+namespace Paliari;
 
 /**
  * Class Api
- * @package Dflourusso
+ * @package Paliari
  */
 class Api
 {

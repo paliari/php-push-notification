@@ -1,9 +1,9 @@
 <?php
-namespace Dflourusso;
+namespace Paliari;
 
 /**
  * Class OneSignal
- * @package Dflourusso
+ * @package Paliari
  */
 class OneSignal
 {
