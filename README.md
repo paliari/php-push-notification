@@ -2,7 +2,7 @@
 
 #### Installation
 	
-	$ composer require dflourusso/php-one-signal
+	$ composer require paliari/php-one-signal
 	
 #### Warn
     
