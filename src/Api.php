@@ -1,6 +1,8 @@
 <?php
 namespace Paliari;
 
+use Exception;
+
 /**
  * Class Api
  * @package Paliari
@@ -56,7 +58,7 @@ class Api
      */
     public function get($path, $params)
     {
-        throw new \Exception('Not implemented');
+        throw new Exception('Not implemented');
     }
 
     /**
@@ -82,4 +84,27 @@ class Api
 
         return (array)json_decode($response);
     }
+
+    /**
+     * @param string $path
+     * @param array  $data
+     *
+     * @throws \Exception
+     */
+    public function put($path, $data)
+    {
+        throw new Exception('Not implemented');
+    }
+
+    /**
+     * @param string $path
+     * @param array  $data
+     *
+     * @throws \Exception
+     */
+    public function delete($path, $data)
+    {
+        throw new Exception('Not implemented');
+    }
+
 }
