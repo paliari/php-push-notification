@@ -76,8 +76,8 @@ class Api
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS    => $data
         ];
-        $this->default_curl_options[CURLOPT_URL] .= $path;
-        $options = $this->mergeCurlOptions($this->default_curl_options, $post_options);
+        $options      = $this->mergeCurlOptions($this->default_curl_options, $post_options);
+        $options[CURLOPT_URL] .= $path;
         curl_setopt_array($curl, $options);
         $response = curl_exec($curl);
         curl_close($curl);
