@@ -61,4 +61,20 @@ class OneSignal
         return $this->api->post('notifications', array_merge($extra_options, $options));
     }
 
+    /**
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param Config $config
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
+
 }
