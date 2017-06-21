@@ -1,4 +1,5 @@
 <?php
+
 namespace Paliari;
 
 /**
@@ -59,4 +60,5 @@ class OneSignal
 
         return $this->api->post('notifications', array_merge($extra_options, $options));
     }
+
 }
