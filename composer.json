@@ -1,20 +1,26 @@
 {
-    "name": "paliari/php-one-signal",
-    "version": "0.0.4",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Daniel Fernando Lourusso",
-            "email": "dflourusso@gmail.com"
-        }
-    ],
-    "require-dev": {
-        "phpunit/phpunit": "5.5.*",
-        "paliari/php-utils": "^1.1"
+  "name": "paliari/php-one-signal",
+  "version": "0.0.4",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Fernando Lourusso",
+      "email": "daniel@paliari.com.br"
     },
-    "autoload": {
-        "psr-4": {
-            "Paliari\\": "src"
-        }
+    {
+      "name": "Marcos Paliari",
+      "email": "marcos@paliari.com.br"
     }
+  ],
+  "require-dev": {
+    "paliari/php-utils": "^1.1",
+    "phpunit/phpunit": "^5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Paliari\\": "src"
+    }
+  },
+  "require": {
+  }
 }
