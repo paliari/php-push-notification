@@ -1,4 +1,5 @@
 <?php
+
 namespace Paliari;
 
 use Exception;
@@ -9,30 +10,64 @@ use Exception;
  */
 class Api
 {
+
     /**
      * @var array
      */
-    protected $default_curl_options;
+    protected $curl_options;
+
+    /**
+     * @var array
+     */
+    protected $headers = ['Content-Type' => 'application/json; charset=utf-8'];
+
+    protected $base_url;
 
     /**
      * Api constructor.
      *
-     * @param Config $config
+     * @param string $base_url
+     * @param array  $curl_options
      */
-    public function __construct($config)
+    public function __construct($base_url, $curl_options = [])
     {
-        $this->default_curl_options = [
+        $this->base_url     = $base_url;
+        $this->curl_options = $this->mergeCurlOptions([
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_MAXREDIRS      => 10,
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_HEADER         => false,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_URL            => $config->getUri(),
-            CURLOPT_HTTPHEADER     => [
-                'Content-Type: application/json; charset=utf-8',
-                "Authorization: Basic {$config->getRestApiKey()}"
-            ]
-        ];
+            CURLOPT_URL            => $base_url,
+        ], $curl_options);
+    }
+
+    public function setAuthorization($authorization)
+    {
+        return $this->setHeader('Authorization', $authorization);
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setHeader($key, $value)
+    {
+        $this->headers[$key] = $value;
+
+        return $this;
+    }
+
+    public function getHeaders()
+    {
+        $headers = [];
+        foreach ($this->headers as $k => $v) {
+            $headers[] = "$k: $v";
+        }
+
+        return $headers;
     }
 
     /**
@@ -69,20 +104,66 @@ class Api
      */
     public function post($path, $data)
     {
-        $curl         = curl_init();
-        $data         = json_encode($data);
         $post_options = [
             CURLOPT_POST          => true,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS    => $data
+            CURLOPT_POSTFIELDS    => json_encode($data)
         ];
-        $options      = $this->mergeCurlOptions($this->default_curl_options, $post_options);
-        $options[CURLOPT_URL] .= $path;
-        curl_setopt_array($curl, $options);
-        $response = curl_exec($curl);
-        curl_close($curl);
+        $options      = $this->curlOptions($post_options, $path);
 
+        return $this->send($this->curlInit(), $options);
+    }
+
+    protected function curlInit()
+    {
+        return curl_init();
+    }
+
+    protected function send($curl, $options)
+    {
+        $this->setCurlOptions($curl, $options);
+        $response = $this->curlExec($curl);
+        $this->close($curl);
+
+        return $this->parseResponse($response);
+    }
+
+    protected function setCurlOptions($curl, $options)
+    {
+        curl_setopt_array($curl, $options);
+    }
+
+    protected function close($curl)
+    {
+        curl_close($curl);
+    }
+
+    protected function curlExec($curl)
+    {
+        return curl_exec($curl);
+    }
+
+    protected function parseResponse($response)
+    {
         return (array)json_decode($response);
+    }
+
+    protected function url($path = '')
+    {
+        if ($path) {
+            return rtrim($this->base_url, '/') . '/' . ltrim($path, '/');
+        }
+
+        return $this->base_url;
+    }
+
+    protected function curlOptions($options, $path)
+    {
+        $options                     = $this->mergeCurlOptions($this->curl_options, $options);
+        $options[CURLOPT_URL]        = $this->url($path);
+        $options[CURLOPT_HTTPHEADER] = $this->getHeaders();
+
+        return $options;
     }
 
     /**

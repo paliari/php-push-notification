@@ -38,7 +38,8 @@ class OneSignal
     public function init($application_id, $rest_api_key)
     {
         $this->config = new Config($application_id, $rest_api_key);
-        $this->api    = new Api($this->config);
+        $this->api    = new Api($this->config->getUri());
+        $this->api->setAuthorization("Basic {$this->config->getRestApiKey()}");
 
         return $this;
     }
