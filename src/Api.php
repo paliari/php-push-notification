@@ -28,6 +28,8 @@ class Api
      *
      * @param string $base_url
      * @param array  $curl_options
+     *
+     * @throws Exception
      */
     public function __construct($base_url, $curl_options = [])
     {
@@ -40,6 +42,9 @@ class Api
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_URL            => $base_url,
         ], $curl_options);
+        if (!$base_url) {
+            throw new Exception('"base_url" is required!');
+        }
     }
 
     public function setAuthorization($authorization)
