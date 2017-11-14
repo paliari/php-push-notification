@@ -2,80 +2,69 @@
 
 namespace Paliari;
 
+use Paliari\Utils\A;
+
 /**
  * Class OneSignal
  * @package Paliari
  */
-class OneSignal
+class OneSignal extends BasePushNotification implements PushNotification
 {
 
-    private static $_instance;
+    protected $app_id = '';
+
+    protected $base_url = 'https://onesignal.com/api/v1/';
 
     /**
-     * @var Api
-     */
-    protected $api;
-
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @return static
-     */
-    public static function instance()
-    {
-        return static::$_instance = static::$_instance ?: new static();
-    }
-
-    /**
-     * @param string $application_id
-     * @param string $rest_api_key
+     * The $config receives a mapped array with the keys and values example:
+     * <code>
+     * $config = [
+     *  'app_id'       => '<yor app_id>',
+     *  'rest_api_key' => '<yor rest_api_key>',
+     * ]
+     * </code>
+     *
+     * @param array $config
      *
      * @return $this
      */
-    public function init($application_id, $rest_api_key)
+    public function init($config)
     {
-        $this->config = new Config($application_id, $rest_api_key);
-        $this->api    = new Api($this->config->getUri());
-        $this->api->setAuthorization("Basic {$this->config->getRestApiKey()}");
+        $this->app_id = A::get($config, 'app_id');
+        $rest_api_key = A::get($config, 'rest_api_key');
+        parent::init($config);
+        $this->api->setAuthorization("Basic $rest_api_key");
 
         return $this;
     }
 
     /**
      * @param string $message
-     * @param array  $players
+     * @param array  $tokens
      * @param array  $extra_options
      *
      * @return array
      */
-    public function createNotification($message, $players, $extra_options = [])
+    protected function createNotification($message, $tokens, $extra_options = [])
     {
         $options = [
-            'app_id'             => $this->config->getAppId(),
-            'include_player_ids' => (array)$players,
-            'contents'           => ['en' => $message]
+            'app_id'             => $this->app_id,
+            'include_player_ids' => (array)$tokens,
+            'contents'           => ['en' => $message],
         ];
+        if ($title = A::get($extra_options, 'title')) {
+            $options['headings'] = ['en' => $title];
+            unset($extra_options['title']);
+        }
 
-        return $this->api->post('notifications', array_merge($extra_options, $options));
+        return array_merge($extra_options, $options);
     }
 
-    /**
-     * @return Config
-     */
-    public function getConfig()
+    public function send($message, $tokens, $options, $title = '')
     {
-        return $this->config;
-    }
+        $data = $this->createNotification($message, $tokens, $options);
 
-    /**
-     * @param Config $config
-     */
-    public function setConfig($config)
-    {
-        $this->config = $config;
+        return $this->post('notifications', $data);
     }
 
 }
