@@ -1,4 +1,5 @@
 <?php
+
 namespace Paliari;
 
 /**
@@ -25,12 +26,12 @@ class Config
     /**
      * Config constructor.
      *
-     * @param string $application_id
+     * @param string $app_id
      * @param string $rest_api_key
      */
-    public function __construct($application_id, $rest_api_key)
+    public function __construct($app_id, $rest_api_key)
     {
-        $this->app_id       = $application_id;
+        $this->app_id       = $app_id;
         $this->rest_api_key = $rest_api_key;
     }
 
