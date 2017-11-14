@@ -44,4 +44,9 @@ abstract class BasePushNotification
         return new Api($base_url);
     }
 
+    protected function post($path, $data)
+    {
+        return $this->api->post($path, $data);
+    }
+
 }
