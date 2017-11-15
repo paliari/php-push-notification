@@ -55,8 +55,8 @@ PushFacade::provider($provider, $app_name)->send($message, $tokens, $extra_param
 
 ### Authors
 
-- [Marcos A Paliari](https://paliari.com.br)
-- [Daniel Fernando Lourusso](https://paliari.com.br)
+- [Marcos A Paliari](https://www.paliari.com.br)
+- [Daniel Fernando Lourusso](https://www.paliari.com.br)
 
 License
 -------
