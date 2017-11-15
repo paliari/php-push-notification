@@ -1,5 +1,5 @@
 {
-    "name": "paliari/php--push-notification",
+    "name": "paliari/php-push-notification",
     "version": "0.1.0",
     "license": "MIT",
     "authors": [
@@ -20,6 +20,5 @@
         "psr-4": {
             "Paliari\\": "src"
         }
-    },
-    "require": []
+    }
 }
