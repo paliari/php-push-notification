@@ -55,5 +55,10 @@ PushFacade::provider($provider, $app_name)->send($message, $tokens, $extra_param
 
 ### Authors
 
-- [Marcos A Paliari](marcos@paliari.com.br)
-- [Daniel Fernando Lourusso](daniel@paliari.com.br)
+- [Marcos A Paliari](https://paliari.com.br)
+- [Daniel Fernando Lourusso](https://paliari.com.br)
+
+License
+-------
+
+This project is licensed under [MIT License](http://en.wikipedia.org/wiki/MIT_License)
