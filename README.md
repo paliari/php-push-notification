@@ -1,26 +1,59 @@
-## php-one-signal
+## php-push-notification
 
 ### Installation
 	
-	$ composer require paliari/php-one-signal
+	$ composer require paliari/php-push-notification
 	
 ### Usage
 
-#### Initialize with your OneSignal credentials
+#### Initialize with your credentials
 
 ```php
-use Paliari\OneSignal;
-OneSignal::instance()->init('<your_app_id>', '<your_rest_api_key>');
+use Paliari\PushFacade;
+$configs = [
+ 'one_signal' => [
+   '<yor app name>' => [
+     'app_id'       => '<yor app_id>',
+     'rest_api_key' => '<yor rest_api_key>',
+   ],
+   '<yor app name 2>' => [
+     'app_id'       => '<yor app_id 2>',
+     'rest_api_key' => '<yor rest_api_key 2>',
+   ],
+ ],
+ 'expo'       => [...],
+];
+
+PushFacade::setUp($configs);
 ```
     
 #### Send notifications from anywhere in your application
 
 ```php
-$player_ids = ['<player_id_01>', '<player_id_02>','<player_id_n>'];
-$extra_params = ['url' => 'http://website.com']; //@see https://documentation.onesignal.com/reference#create-notification
-OneSignal::instance()->createNotification('Test message', $player_ids, $extra_params);
+use Paliari\PushFacade;
+
+$tokens = ['<token_01>', '<token_02>','<token_n>'];
+$extra_params = [
+  'title' => '<your title message>', // optional
+  'url' => 'http://website.com', // optional for web
+  'data' => [
+    '<your custom param>' => '<your custom value>',
+    // ... any ...
+  ],
+]; 
+$provider = PushFacade::ONE_SIGNAL;
+$app_name = '<your-app-name>';
+$message = '<your message content.>';
+PushFacade::provider($provider, $app_name)->send($message, $tokens, $extra_params);
 ```
-    
+
+### See
+
+- [OneSignal](https://documentation.onesignal.com/reference#create-notification)
+
+- [Expo Push Notifications](https://docs.expo.io/versions/latest/guides/push-notifications.html)
+
 ### Authors
 
-- [Daniel Fernando Lourusso](http://dflourusso.com.br)
+- [Marcos A Paliari](marcos@paliari.com.br)
+- [Daniel Fernando Lourusso](daniel@paliari.com.br)
